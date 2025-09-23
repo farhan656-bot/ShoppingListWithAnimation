@@ -33,10 +33,12 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun ShoppingListApp() {
+    // State utama
     var newItemText by rememberSaveable { mutableStateOf("") }
     var searchQuery by rememberSaveable { mutableStateOf("") }
     val shoppingItems = remember { mutableStateListOf<String>() }
 
+    // Filter pencarian
     val filteredItems by remember(searchQuery, shoppingItems) {
         derivedStateOf {
             if (searchQuery.isBlank()) {
@@ -49,6 +51,7 @@ fun ShoppingListApp() {
         }
     }
 
+    // Layout utama
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -57,7 +60,7 @@ fun ShoppingListApp() {
     ) {
         Title()
 
-        // Input untuk tambah item baru
+        // Input tambah item
         ItemInput(
             text = newItemText,
             onTextChange = { newItemText = it },
@@ -79,7 +82,7 @@ fun ShoppingListApp() {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Daftar belanja
+        // Daftar belanja dengan animasi
         ShoppingList(items = filteredItems)
     }
 }
